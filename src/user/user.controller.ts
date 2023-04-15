@@ -10,10 +10,14 @@ import {
   Query,
   HttpCode,
   Headers,
+  Res,
+  Req,
+  Session,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import * as svgCaptcha from 'svg-captcha';
 
 // 接口全局版本控制: http://localhost:3000/v1/接口
 @Controller({
@@ -75,6 +79,7 @@ export class UserController {
   }
 
   @Get(':id')
+  @Version('v2')
   /* findId(@Request() req) {
     console.log(req.params.id);
     return {
@@ -101,5 +106,43 @@ export class UserController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
+  }
+
+  @Get('code')
+  createCode(@Res() res, @Req() req, @Session() session) {
+    const captcha = svgCaptcha.create({
+      // 生成多少个验证码
+      size: 4,
+      // 文字大小
+      fontSize: 50,
+      // 宽度
+      width: 100,
+      // 高度
+      height: 34,
+      // 背景色
+      background: '#cc9966',
+    });
+    // 记录session
+    session.code = captcha.text;
+    res.type('image/svg+xml');
+    res.send(captcha.data);
+  }
+
+  @Post('create')
+  createUser(
+    @Body() Body: { code: string },
+    @Session() session: { code: string },
+  ) {
+    if (session.code.toLocaleLowerCase() === Body.code.toLocaleLowerCase()) {
+      return {
+        code: 200,
+        message: '验证码正确',
+      };
+    } else {
+      return {
+        code: 200,
+        message: '验证码错误',
+      };
+    }
   }
 }
