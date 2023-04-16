@@ -6,9 +6,10 @@ import { DemoService } from './demo/demo.service';
 import { DemoModule } from './demo/demo.module';
 import { UserModule } from './user/user.module';
 import { AppService2 } from './app.service2';
+import { ConfigModule } from './config/config.module';
 
 @Module({
-  imports: [DemoModule, UserModule],
+  imports: [DemoModule, UserModule, ConfigModule],
   controllers: [AppController, DemoController],
   providers: [
     {
@@ -29,7 +30,7 @@ import { AppService2 } from './app.service2';
         return await new Promise((r) => {
           setTimeout(() => {
             r(AppService2.getHello());
-          }, 2000);
+          }, 0);
         });
       },
     },
