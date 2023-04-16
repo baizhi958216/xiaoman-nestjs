@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { VersioningType } from '@nestjs/common';
 import * as session from 'express-session';
+import * as cors from 'cors';
 import { NextFunction, Request, Response } from 'express';
 
 const whileList = ['/demo'];
@@ -10,7 +11,9 @@ const blackList = ['/jinitaimei'];
 function MiddleWareAll(req: Request, res: Response, next: NextFunction) {
   console.log(req.originalUrl);
   if (blackList.includes(req.originalUrl)) {
-    res.send('小黑子露出鸡脚了吧');
+    res.send({
+      message: '小黑子露出鸡脚了吧',
+    });
   } else {
     next();
   }
@@ -25,6 +28,8 @@ async function bootstrap() {
   });
   // 全局中间件
   app.use(MiddleWareAll);
+  // 跨域处理
+  app.use(cors());
   app.use(
     session({
       // 后端session签名(加盐)
