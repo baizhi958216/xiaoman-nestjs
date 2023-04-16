@@ -9,7 +9,7 @@ import { AppService2 } from './app.service2';
 import { ConfigModule } from './config/config.module';
 
 @Module({
-  imports: [DemoModule, UserModule, ConfigModule],
+  imports: [DemoModule, UserModule, ConfigModule.forRoot({ path: '/xiaoman' })],
   controllers: [AppController, DemoController],
   providers: [
     {
