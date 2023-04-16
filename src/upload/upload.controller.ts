@@ -15,6 +15,7 @@ import { UploadService } from './upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
 import { join } from 'path';
+import { zip } from 'compressing';
 
 @Controller('upload')
 export class UploadController {
@@ -30,5 +31,16 @@ export class UploadController {
   downLoad(@Param() param, @Res() res: Response) {
     const url = join(__dirname, `../images/${param.id}`);
     res.download(url);
+  }
+
+  @Get('stream/:id')
+  async down(@Param() param, @Res() res: Response) {
+    const url = join(__dirname, `../images/${param.id}`);
+    const tarStream = new zip.Stream();
+    await tarStream.addEntry(url);
+    res.setHeader('Content-Type', 'application/octet-stream');
+    res.setHeader('Content-Disposition', `attachment;filename=${param.id}`);
+
+    tarStream.pipe(res);
   }
 }
