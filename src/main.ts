@@ -4,6 +4,8 @@ import { VersioningType } from '@nestjs/common';
 import * as session from 'express-session';
 import * as cors from 'cors';
 import { NextFunction, Request, Response } from 'express';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 const whileList = ['/demo'];
 const blackList = ['/jinitaimei'];
@@ -20,7 +22,12 @@ function MiddleWareAll(req: Request, res: Response, next: NextFunction) {
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  // 配置静态资源目录访问
+  app.useStaticAssets(join(__dirname, 'images'), {
+    // 添加前缀 https://localhost:3000/xiaoman/xxxxxx
+    prefix: '/xiaoman',
+  });
   // 开启版本控制: http://localhost:3000/版本号/接口
   app.enableVersioning({
     type: VersioningType.URI,
