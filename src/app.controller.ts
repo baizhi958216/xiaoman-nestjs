@@ -1,6 +1,8 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { AppService } from './app.service';
 
+import { UserService } from './user/user.service';
+
 @Controller()
 export class AppController {
   constructor(
@@ -10,6 +12,8 @@ export class AppController {
     @Inject('Test') private readonly shop: string[],
     // 返回提供者工厂的返回值
     @Inject('CCC') private readonly ccc: number,
+    // 使用其它模块
+    private readonly UserService: UserService,
   ) {}
 
   @Get()
@@ -23,7 +27,12 @@ export class AppController {
   } */
 
   // 提供者工厂
-  getHello(): number {
+  /* getHello(): number {
     return this.ccc;
+  } */
+
+  // 使用其它模块
+  getHello(): string {
+    return this.UserService.findAll();
   }
 }
