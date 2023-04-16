@@ -25,9 +25,12 @@ import { AppService2 } from './app.service2';
     {
       provide: 'CCC',
       inject: [AppService2],
-      useFactory(AppService2: AppService2) {
-        console.log(AppService2.getHello());
-        return 123;
+      async useFactory(AppService2: AppService2) {
+        return await new Promise((r) => {
+          setTimeout(() => {
+            r(AppService2.getHello());
+          }, 2000);
+        });
       },
     },
     DemoService,
