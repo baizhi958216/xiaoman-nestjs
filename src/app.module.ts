@@ -7,9 +7,10 @@ import { DemoModule } from './demo/demo.module';
 import { UserModule } from './user/user.module';
 import { AppService2 } from './app.service2';
 import { ConfigModule } from './config/config.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
-  imports: [DemoModule, UserModule, ConfigModule.forRoot({ path: '/xiaoman' })],
+  imports: [DemoModule, UserModule, ConfigModule.forRoot({ path: '/xiaoman' }), UploadModule],
   controllers: [AppController, DemoController],
   providers: [
     {
