@@ -5,6 +5,7 @@ import { DemoController } from './demo/demo.controller';
 import { DemoService } from './demo/demo.service';
 import { DemoModule } from './demo/demo.module';
 import { UserModule } from './user/user.module';
+import { AppService2 } from './app.service2';
 
 @Module({
   imports: [DemoModule, UserModule],
@@ -18,6 +19,16 @@ import { UserModule } from './user/user.module';
       provide: 'Test',
       // 自定义值
       useValue: ['TB', 'PDD', 'JD'],
+    },
+    // 工厂模式
+    AppService2,
+    {
+      provide: 'CCC',
+      inject: [AppService2],
+      useFactory(AppService2: AppService2) {
+        console.log(AppService2.getHello());
+        return 123;
+      },
     },
     DemoService,
   ],

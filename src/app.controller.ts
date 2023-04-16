@@ -8,13 +8,22 @@ export class AppController {
     @Inject('AppService') private readonly appService: AppService,
     // 使用自定义值将会返回模块提供者定义的值: useValue
     @Inject('Test') private readonly shop: string[],
+    // 返回提供者工厂的返回值
+    @Inject('CCC') private readonly ccc: number,
   ) {}
 
   @Get()
   /* getHello(): string {
     return this.appService.getHello();
   } */
-  getHello(): string[] {
+
+  // 自定义提供者返回值
+  /* getHello(): string[] {
     return this.shop;
+  } */
+
+  // 提供者工厂
+  getHello(): number {
+    return this.ccc;
   }
 }
