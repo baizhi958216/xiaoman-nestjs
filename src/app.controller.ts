@@ -1,9 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Inject } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    // 别名注入需要跟模块的提供者别名一致
+    @Inject('AppService') private readonly appService: AppService,
+  ) {}
 
   @Get()
   getHello(): string {
