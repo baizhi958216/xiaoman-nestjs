@@ -14,6 +14,11 @@ import { UserModule } from './user/user.module';
       provide: 'AppService',
       useClass: AppService,
     },
+    {
+      provide: 'Test',
+      // 自定义值
+      useValue: ['TB', 'PDD', 'JD'],
+    },
     DemoService,
   ],
 })
