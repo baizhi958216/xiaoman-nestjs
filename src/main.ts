@@ -2,6 +2,19 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { VersioningType } from '@nestjs/common';
 import * as session from 'express-session';
+import { NextFunction, Request, Response } from 'express';
+
+const whileList = ['/demo'];
+const blackList = ['/jinitaimei'];
+
+function MiddleWareAll(req: Request, res: Response, next: NextFunction) {
+  console.log(req.originalUrl);
+  if (blackList.includes(req.originalUrl)) {
+    res.send('小黑子露出鸡脚了吧');
+  } else {
+    next();
+  }
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,6 +23,8 @@ async function bootstrap() {
     type: VersioningType.URI,
     prefix: false,
   });
+  // 全局中间件
+  app.use(MiddleWareAll);
   app.use(
     session({
       // 后端session签名(加盐)
