@@ -6,6 +6,8 @@ import * as cors from 'cors';
 import { NextFunction, Request, Response } from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
+import { Observable, filter, interval, map } from 'rxjs';
+import { rxjsdemo } from './rxjsdemo';
 
 const whileList = ['/demo'];
 const blackList = ['/jinitaimei'];
@@ -22,6 +24,9 @@ function MiddleWareAll(req: Request, res: Response, next: NextFunction) {
 }
 
 async function bootstrap() {
+  // rxjs
+  // rxjsdemo();
+
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   // 配置静态资源目录访问
   app.useStaticAssets(join(__dirname, 'images'), {
