@@ -8,6 +8,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { Observable, filter, interval, map } from 'rxjs';
 import { rxjsdemo } from './rxjsdemo';
+import { ResponseG } from './common/response';
 
 const whileList = ['/demo'];
 const blackList = ['/jinitaimei'];
@@ -56,6 +57,8 @@ async function bootstrap() {
       },
     }),
   );
+  // 响应拦截器
+  app.useGlobalInterceptors(new ResponseG());
   await app.listen(3000);
 }
 bootstrap();
