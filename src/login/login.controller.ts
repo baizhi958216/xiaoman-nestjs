@@ -1,14 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { LoginService } from './login.service';
 import { CreateLoginDto } from './dto/create-login.dto';
 import { UpdateLoginDto } from './dto/update-login.dto';
+import { LoginPipe } from './login/login.pipe';
 
 @Controller('login')
 export class LoginController {
   constructor(private readonly loginService: LoginService) {}
 
   @Post()
-  create(@Body() createLoginDto: CreateLoginDto) {
+  // 取name的值, 管道metadata的data变成name
+  // create(@Body('name', LoginPipe) createLoginDto: CreateLoginDto) {
+  create(@Body(LoginPipe) createLoginDto: CreateLoginDto) {
     return this.loginService.create(createLoginDto);
   }
 
