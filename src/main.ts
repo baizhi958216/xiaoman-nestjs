@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { VersioningType } from '@nestjs/common';
+import { VersioningType, ValidationPipe } from '@nestjs/common';
 import * as session from 'express-session';
 import * as cors from 'cors';
 import { NextFunction, Request, Response } from 'express';
@@ -62,6 +62,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseG());
   // 异常拦截器
   app.useGlobalFilters(new HttpFilter());
+  // 全局管道验证(返回精简的异常响应)
+  app.useGlobalPipes(new ValidationPipe());
   await app.listen(3000);
 }
 bootstrap();

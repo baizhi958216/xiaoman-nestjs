@@ -10,7 +10,6 @@ import {
 import { LoginService } from './login.service';
 import { CreateLoginDto } from './dto/create-login.dto';
 import { UpdateLoginDto } from './dto/update-login.dto';
-import { LoginPipe } from './login/login.pipe';
 
 @Controller('login')
 export class LoginController {
@@ -19,7 +18,7 @@ export class LoginController {
   @Post()
   // 取name的值, 管道metadata的data变成name
   // create(@Body('name', LoginPipe) createLoginDto: CreateLoginDto) {
-  create(@Body(LoginPipe) createLoginDto: CreateLoginDto) {
+  create(@Body() createLoginDto: CreateLoginDto) {
     return this.loginService.create(createLoginDto);
   }
 
