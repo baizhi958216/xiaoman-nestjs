@@ -9,9 +9,10 @@ import { AppService2 } from './app.service2';
 import { ConfigModule } from './config/config.module';
 import { UploadModule } from './upload/upload.module';
 import { PModule } from './p/p.module';
+import { LoginModule } from './login/login.module';
 
 @Module({
-  imports: [DemoModule, UserModule, ConfigModule.forRoot({ path: '/xiaoman' }), UploadModule, PModule],
+  imports: [DemoModule, UserModule, ConfigModule.forRoot({ path: '/xiaoman' }), UploadModule, PModule, LoginModule],
   controllers: [AppController, DemoController],
   providers: [
     {
