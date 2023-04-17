@@ -10,6 +10,7 @@ import { Observable, filter, interval, map } from 'rxjs';
 import { rxjsdemo } from './rxjsdemo';
 import { ResponseG } from './common/response';
 import { HttpFilter } from './common/filter';
+import { RoleGuard } from './guard/role/role.guard';
 
 const whileList = ['/demo'];
 const blackList = ['/jinitaimei'];
@@ -64,6 +65,8 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpFilter());
   // 全局管道验证(返回精简的异常响应)
   app.useGlobalPipes(new ValidationPipe());
+  // 全局守卫
+  app.useGlobalGuards(new RoleGuard());
   await app.listen(3000);
 }
 bootstrap();
