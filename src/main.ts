@@ -9,6 +9,7 @@ import { join } from 'path';
 import { Observable, filter, interval, map } from 'rxjs';
 import { rxjsdemo } from './rxjsdemo';
 import { ResponseG } from './common/response';
+import { HttpFilter } from './common/filter';
 
 const whileList = ['/demo'];
 const blackList = ['/jinitaimei'];
@@ -59,6 +60,8 @@ async function bootstrap() {
   );
   // 响应拦截器
   app.useGlobalInterceptors(new ResponseG());
+  // 异常拦截器
+  app.useGlobalFilters(new HttpFilter());
   await app.listen(3000);
 }
 bootstrap();
