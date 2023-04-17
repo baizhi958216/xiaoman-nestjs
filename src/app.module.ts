@@ -10,9 +10,18 @@ import { ConfigModule } from './config/config.module';
 import { UploadModule } from './upload/upload.module';
 import { PModule } from './p/p.module';
 import { LoginModule } from './login/login.module';
+import { SpiderModule } from './spider/spider.module';
 
 @Module({
-  imports: [DemoModule, UserModule, ConfigModule.forRoot({ path: '/xiaoman' }), UploadModule, PModule, LoginModule],
+  imports: [
+    DemoModule,
+    UserModule,
+    ConfigModule.forRoot({ path: '/xiaoman' }),
+    UploadModule,
+    PModule,
+    LoginModule,
+    SpiderModule,
+  ],
   controllers: [AppController, DemoController],
   providers: [
     {
