@@ -1,7 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ParseUUIDPipe,
+} from '@nestjs/common';
+/* 
+  ValidationPipe
+  ParseIntPipe
+  ParseFloatPipe
+  ParseBoolPipe
+  ParseArrayPipe
+  ParseUUIDPipe
+  ParseEnumPipe
+  DefaultValuePipe
+*/
 import { PService } from './p.service';
 import { CreatePDto } from './dto/create-p.dto';
 import { UpdatePDto } from './dto/update-p.dto';
+import * as uuid from 'uuid';
+// v1: mac
+// v3: 混淆
+// v4: 随机数
+console.log(uuid.v4());
 
 @Controller('p')
 export class PController {
@@ -18,7 +42,9 @@ export class PController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  // 需要uuid格式
+  // 访问 http://localhost:3000/p/1bccf6fd-43cb-4e49-8e51-5d370983db84
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.pService.findOne(+id);
   }
 
