@@ -14,7 +14,7 @@ import { CreateGuardDto } from './dto/create-guard.dto';
 import { UpdateGuardDto } from './dto/update-guard.dto';
 import { RoleGuard } from './role/role.guard';
 import { ReqUrl, Role } from './role/role.decorator';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 @Controller('guard')
 @ApiTags('守卫接口')
@@ -32,6 +32,7 @@ export class GuardController {
   // @SetMetadata('role', ['admin'])
   // 自定义装饰器
   @Role('admin')
+  @ApiOperation({ summary: 'get接口', description: '描述xxx' })
   findAll(@ReqUrl('123') url: string) {
     console.log(url);
     return this.guardService.findAll();
