@@ -1,6 +1,7 @@
 import {
   ExecutionContext,
   SetMetadata,
+  applyDecorators,
   createParamDecorator,
 } from '@nestjs/common';
 import { Request } from 'express';
@@ -11,6 +12,6 @@ export const ReqUrl = createParamDecorator(
   (data: string, ctx: ExecutionContext) => {
     const req = ctx.switchToHttp().getRequest<Request>();
     console.log(data);
-    return req.url;
+    return applyDecorators(Role);
   },
 );
