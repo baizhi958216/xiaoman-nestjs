@@ -33,6 +33,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const options = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle('小满的飞机')
     .setDescription('很小')
     .setVersion('1')

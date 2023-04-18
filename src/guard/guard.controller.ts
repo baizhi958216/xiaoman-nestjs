@@ -15,6 +15,7 @@ import { UpdateGuardDto } from './dto/update-guard.dto';
 import { RoleGuard } from './role/role.guard';
 import { ReqUrl, Role } from './role/role.decorator';
 import {
+  ApiBearerAuth,
   ApiOperation,
   ApiParam,
   ApiQuery,
@@ -24,6 +25,8 @@ import {
 
 @Controller('guard')
 @ApiTags('守卫接口')
+// 自定义插入Token
+@ApiBearerAuth()
 @UseGuards(RoleGuard)
 export class GuardController {
   constructor(private readonly guardService: GuardService) {}
