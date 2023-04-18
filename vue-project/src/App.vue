@@ -1,85 +1,95 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+  <div class="wraps">
+    <div>
+      <el-input v-model="search.keyWord" style="width: 300px"></el-input>
+      <el-button @click="init" style="margin-left: 10px">搜索</el-button>
+      <el-button @click="openDialog" type="primary" style="margin-left: 10px">添加</el-button>
     </div>
-  </header>
+    <el-table border :data="tableData" style="width: 100%; margin-top: 30px">
+      <el-table-column prop="name" label="名字" />
+      <el-table-column prop="desc" label="描述" />
+      <el-table-column prop="id" label="id" />
+      <el-table-column>
+        <template #default="scope">
+          <el-button @click="edit(scope.row)">编辑</el-button>
+          <el-button @click="deleteRow(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
 
-  <RouterView />
+  <el-dialog v-model="dialogVisible" title="弹框" width="50%">
+    <el-form :model="form">
+      <el-form-item prop="name" label="名称">
+        <el-input v-model="form.name" placeholder="名称" />
+      </el-form-item>
+      <el-form-item prop="desc" label="描述">
+        <el-input v-model="form.desc" placeholder="描述"> </el-input>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="close">关闭</el-button>
+        <el-button type="primary" @click="save"> 保存 </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
+<script setup lang="ts">
+import { ref, reactive } from 'vue'
+import type { FormInstance } from 'element-plus'
+import { addUser, updateUser, delUser, getList } from '@/server'
+//搜索框
+const search = reactive({
+  keyWord: ''
+})
+//表单
+const form = reactive({
+  name: '',
+  desc: '',
+  id: 0
+})
+//清空数据
+const resetForm = reactive({ ...form })
+//表格数据
+const tableData = ref([])
+//弹框开关
+const dialogVisible = ref<boolean>(false)
+const openDialog = () => {
+  dialogVisible.value = true
+  Object.assign(form, resetForm)
+}
+//初始化表格数据
+const init = async () => {}
+init()
+//保存 和修改 表格数据
+const save = async () => {}
+//删除表格数据
+const deleteRow = async (row) => {}
+//获取 详情
+const edit = (row: any) => {
+  dialogVisible.value = true
+}
+//关闭弹框
+const close = () => {
+  dialogVisible.value = false
+}
+</script>
+
+<style lang="less">
+* {
+  padding: 0;
+  margin: 0;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+html,
+body {
+  background: #ccc;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.wraps {
+  height: 100vh;
+  padding: 30px;
 }
 </style>
