@@ -11,6 +11,7 @@ import { rxjsdemo } from './rxjsdemo';
 import { ResponseG } from './common/response';
 import { HttpFilter } from './common/filter';
 import { RoleGuard } from './guard/role/role.guard';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 const whileList = ['/demo'];
 const blackList = ['/jinitaimei'];
@@ -31,6 +32,15 @@ async function bootstrap() {
   // rxjsdemo();
 
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const options = new DocumentBuilder()
+    .setTitle('小满的飞机')
+    .setDescription('很小')
+    .setVersion('1')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+
+  SwaggerModule.setup('/api-docs', app, document);
+
   // 配置静态资源目录访问
   app.useStaticAssets(join(__dirname, 'images'), {
     // 添加前缀 https://localhost:3000/xiaoman/xxxxxx
