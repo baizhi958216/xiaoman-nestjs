@@ -14,7 +14,7 @@ import { CreateGuardDto } from './dto/create-guard.dto';
 import { UpdateGuardDto } from './dto/update-guard.dto';
 import { RoleGuard } from './role/role.guard';
 import { ReqUrl, Role } from './role/role.decorator';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 @Controller('guard')
 @ApiTags('守卫接口')
@@ -39,6 +39,7 @@ export class GuardController {
   }
 
   @Get(':id')
+  @ApiParam({ name: 'id', description: '这是一个id', required: true })
   findOne(@Param('id') id: string) {
     return this.guardService.findOne(+id);
   }
