@@ -61,15 +61,30 @@ const openDialog = () => {
   Object.assign(form, resetForm)
 }
 //初始化表格数据
-const init = async () => {}
+const init = async () => {
+  const list = await getList(search)
+  tableData.value = list
+}
 init()
 //保存 和修改 表格数据
-const save = async () => {}
+const save = async () => {
+  if (form.id) {
+    await updateUser(form)
+  } else {
+    await addUser(form)
+  }
+  close()
+  init()
+}
 //删除表格数据
-const deleteRow = async (row) => {}
+const deleteRow = async (row) => {
+  await delUser({ id: row.id })
+  init()
+}
 //获取 详情
 const edit = (row: any) => {
   dialogVisible.value = true
+  Object.assign(form, row)
 }
 //关闭弹框
 const close = () => {
