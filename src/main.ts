@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { VersioningType, ValidationPipe } from '@nestjs/common';
+import { VersioningType, ValidationPipe, SetMetadata } from '@nestjs/common';
 import * as session from 'express-session';
 import * as cors from 'cors';
 import { NextFunction, Request, Response } from 'express';
@@ -66,7 +66,7 @@ async function bootstrap() {
   // 全局管道验证(返回精简的异常响应)
   app.useGlobalPipes(new ValidationPipe());
   // 全局守卫
-  app.useGlobalGuards(new RoleGuard());
+  // app.useGlobalGuards(new RoleGuard());
   await app.listen(3000);
 }
 bootstrap();
