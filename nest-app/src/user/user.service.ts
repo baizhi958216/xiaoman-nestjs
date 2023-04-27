@@ -18,12 +18,27 @@ export class UserService {
     return this.user.save(data);
   }
 
-  findAll(query: { keyWord: string }) {
-    return this.user.find({
+  async findAll(query: { keyWord: string; page: number; pageSize: number }) {
+    const data = await this.user.find({
+      where: {
+        name: Like(`%${query.keyWord}%`),
+      },
+      order: {
+        id: 'DESC',
+      },
+      skip: (query.page - 1) * query.pageSize, //0 10
+      take: query.pageSize,
+    });
+    const total = await this.user.count({
       where: {
         name: Like(`%${query.keyWord}%`),
       },
     });
+
+    return {
+      data,
+      total,
+    };
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {

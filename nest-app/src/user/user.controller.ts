@@ -22,7 +22,7 @@ export class UserController {
   }
 
   @Get()
-  findAll(@Query() query: { keyWord: string }) {
+  findAll(@Query() query: { keyWord: string; page: number; pageSize: number }) {
     return this.userService.findAll(query);
   }
 

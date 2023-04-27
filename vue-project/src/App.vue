@@ -16,6 +16,10 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <div>
+      <el-pagination @current-change="change" layout="prev, pager, next" :total="total" />
+    </div>
   </div>
 
   <el-dialog v-model="dialogVisible" title="弹框" width="50%">
@@ -40,9 +44,12 @@
 import { ref, reactive } from 'vue'
 import type { FormInstance } from 'element-plus'
 import { addUser, updateUser, delUser, getList } from '@/server'
+const total = ref<number>(0)
 //搜索框
 const search = reactive({
-  keyWord: ''
+  keyWord: '',
+  page: 1,
+  pageSize: 10
 })
 //表单
 const form = reactive({
@@ -63,7 +70,8 @@ const openDialog = () => {
 //初始化表格数据
 const init = async () => {
   const list = await getList(search)
-  tableData.value = list
+  tableData.value = list?.data ?? []
+  total.value = list?.total ?? 0
 }
 init()
 //保存 和修改 表格数据
@@ -89,6 +97,10 @@ const edit = (row: any) => {
 //关闭弹框
 const close = () => {
   dialogVisible.value = false
+}
+const change = (page) => {
+  search.page = page
+  init()
 }
 </script>
 
