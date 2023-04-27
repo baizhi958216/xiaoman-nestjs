@@ -9,10 +9,16 @@
       <el-table-column prop="name" label="名字" />
       <el-table-column prop="desc" label="描述" />
       <el-table-column prop="id" label="id" />
+      <el-table-column label="tags">
+        <template #default="scope">
+          <el-tag v-for="tag in scope.row.tags">{{ tag.name }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column>
         <template #default="scope">
           <el-button @click="edit(scope.row)">编辑</el-button>
           <el-button @click="deleteRow(scope.row)">删除</el-button>
+          <el-button @click=";(isShowTag = true), (row = scope.row)">添加tag</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -38,13 +44,32 @@
       </span>
     </template>
   </el-dialog>
+
+  <el-dialog v-model="isShowTag" title="添加tag">
+    <el-select style="width: 100%" v-model="tags" multiple>
+      <el-option value="tag1">tag1</el-option>
+      <el-option value="tag2">tag2</el-option>
+      <el-option value="tag3">tag3</el-option>
+    </el-select>
+    <template #footer>
+      <el-button @click="addTa" type="primary">确定</el-button>
+    </template>
+  </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import type { FormInstance } from 'element-plus'
-import { addUser, updateUser, delUser, getList } from '@/server'
+import { addUser, updateUser, delUser, getList, addTags } from '@/server'
 const total = ref<number>(0)
+const isShowTag = ref<boolean>(false)
+const tags = ref([])
+interface IRow {
+  id?: number
+  name?: string
+  desc?: string
+  creatime?: Date
+}
+const row = ref<IRow>({})
 //搜索框
 const search = reactive({
   keyWord: '',
@@ -101,6 +126,14 @@ const close = () => {
 const change = (page) => {
   search.page = page
   init()
+}
+const addTa = async () => {
+  const res = await addTags({
+    tags: tags.value,
+    userId: row.value.id
+  })
+  isShowTag.value = false
+  tags.value = []
 }
 </script>
 

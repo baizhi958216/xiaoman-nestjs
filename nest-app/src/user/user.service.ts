@@ -4,12 +4,33 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Like, Repository } from 'typeorm';
+import { Tags } from './entities/tags.entity';
 
 @Injectable()
 export class UserService {
   constructor(
+    @InjectRepository(Tags) private readonly tags: Repository<Tags>,
     @InjectRepository(User) private readonly user: Repository<User>,
   ) {}
+
+  async addTags(params: { tags: string[]; userId: number }) {
+    const userInfo = await this.user.findOne({
+      where: { id: params.userId },
+    });
+
+    const tagList: Tags[] = [];
+    for (let index = 0; index < params.tags.length; index++) {
+      const T = new Tags();
+      T.name = params.tags[index];
+      await this.tags.save(T);
+      tagList.push(T);
+    }
+
+    userInfo.tags = tagList;
+    this.user.save(userInfo);
+
+    return true;
+  }
 
   create(createUserDto: CreateUserDto) {
     const data = new User();
@@ -20,6 +41,7 @@ export class UserService {
 
   async findAll(query: { keyWord: string; page: number; pageSize: number }) {
     const data = await this.user.find({
+      relations: ['tags'],
       where: {
         name: Like(`%${query.keyWord}%`),
       },

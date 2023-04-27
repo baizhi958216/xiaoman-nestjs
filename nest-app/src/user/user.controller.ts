@@ -16,6 +16,11 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Post('/add/tags')
+  addTags(@Body() params: { tags: string[]; userId: number }) {
+    return this.userService.addTags(params);
+  }
+
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
