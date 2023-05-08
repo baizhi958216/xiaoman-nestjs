@@ -13,6 +13,7 @@ import { LoginModule } from './login/login.module';
 import { SpiderModule } from './spider/spider.module';
 import { GuardModule } from './guard/guard.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ManagerModule } from './manager/manager.module';
 
 @Module({
   imports: [
@@ -30,13 +31,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       password: '123456',
       host: 'localhost',
       port: 3306,
-      database: 'db',
+      database: 'xiaoman',
       // entities: [__dirname + '/**/*.entity{.ts,.js}'], //扫描包里的实体文件, 推荐使用自动加载实体autoLoadEntities
       synchronize: true, //是否将实体自动同步到数据库
       retryDelay: 500, //重试数据库连接间隔
       retryAttempts: 10, //重试数据库连接次数
       autoLoadEntities: true, //自动加载实体
     }),
+    ManagerModule,
   ],
   controllers: [AppController, DemoController],
   providers: [

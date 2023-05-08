@@ -31,6 +31,9 @@ dependencies:
   class-transformer:
     specifier: ^0.5.1
     version: 0.5.1
+  class-transformer-storage:
+    specifier: ^2.0.4
+    version: 2.0.4
   class-validator:
     specifier: ^0.14.0
     version: 0.14.0
@@ -2079,6 +2082,13 @@ packages:
   /cjs-module-lexer@1.2.2:
     resolution: {integrity: sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==}
     dev: true
+
+  /class-transformer-storage@2.0.4:
+    resolution: {integrity: sha512-8wvg05OFuiC6/T96uIkxP8C5hM8/sn0fDvAWQfbVOfNvePCVreyN5gNqKdt5agHxkyT+x5u9oW3Pzd/j3Iqraw==}
+    dependencies:
+      class-transformer: 0.5.1
+      reflect-metadata: 0.1.13
+    dev: false
 
   /class-transformer@0.5.1:
     resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}

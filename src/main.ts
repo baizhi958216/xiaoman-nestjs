@@ -71,11 +71,11 @@ async function bootstrap() {
     }),
   );
   // 响应拦截器
-  app.useGlobalInterceptors(new ResponseG());
+  // app.useGlobalInterceptors(new ResponseG());
   // 异常拦截器
   app.useGlobalFilters(new HttpFilter());
   // 全局管道验证(返回精简的异常响应)
-  app.useGlobalPipes(new ValidationPipe());
+  // app.useGlobalPipes(new ValidationPipe());
   // 全局守卫
   // app.useGlobalGuards(new RoleGuard());
   await app.listen(3000);
